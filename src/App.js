@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import OnboardingForm from "./components/Form";
+import User from "./components/User";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ function App() {
       <OnboardingForm addUser={addUser} />
       <div>
         {users.map(user => (
-          <pre>{JSON.stringify(user)}</pre>
+          <User {...user} />
         ))}
       </div>
     </div>

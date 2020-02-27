@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 
-function OnboardingForm({ errors, touched }) {
+function OnboardingForm({ errors, touched, status }) {
+  useEffect(() => {
+    console.log("status has changed:", status);
+  }, [status]);
   return (
     <Form>
       <label>
@@ -58,7 +61,6 @@ const FormikOnboardingForm = withFormik({
   }),
 
   handleSubmit(values, { props, setStatus, resetForm }) {
-    console.log("submitted: ", values);
     axios
       .post("https://reqres.in/api/users", values)
       .then(res => {
