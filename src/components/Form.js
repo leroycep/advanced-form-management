@@ -56,8 +56,9 @@ const FormikOnboardingForm = withFormik({
     tos: yup.boolean().oneOf([true], "You must agree to the TOS")
   }),
 
-  handleSubmit(values) {
+  handleSubmit(values, { props }) {
     console.log("submitted: ", values);
+    props.addUser(values);
   }
 })(OnboardingForm);
 
