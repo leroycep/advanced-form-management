@@ -52,6 +52,11 @@ const FormikOnboardingForm = withFormik({
     email: yup
       .string()
       .email("Invalid email address")
+      .test(
+        "duplicate-email",
+        "That email is already taken",
+        val => val !== "waffle@syrup.com"
+      )
       .required(),
     password: yup
       .string()
