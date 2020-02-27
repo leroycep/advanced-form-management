@@ -1,20 +1,27 @@
 import React from "react";
 import { withFormik, Form, Field } from "formik";
+import * as yup from "yup";
 
-function OnboardingForm() {
+function OnboardingForm({ errors, touched }) {
   return (
     <Form>
       <label>
-        Username: <Field type="text" name="username" placeholder="Username" />
+        Username:
+        <Field type="text" name="username" placeholder="Username" />
+        {touched.username && errors.username && <p>{errors.username}</p>}
       </label>
       <label>
-        E-Mail: <Field type="text" name="email" placeholder="E-Mail" />
+        E-Mail:
+        <Field type="email" name="email" placeholder="E-Mail" />
+        {touched.email && errors.email && <p>{errors.email}</p>}
       </label>
       <label>
-        Password:{" "}
+        Password:
         <Field type="password" name="password" placeholder="Password" />
+        {touched.password && errors.password && <p>{errors.password}</p>}
       </label>
       <label>
+        {touched.tos && errors.tos && <p>{errors.tos}</p>}
         <Field type="checkbox" name="tos" />
         By checking this box, you agree to the Terms of Service
       </label>
@@ -32,6 +39,22 @@ const FormikOnboardingForm = withFormik({
       tos: tos || false
     };
   },
+
+  validationSchema: yup.object().shape({
+    username: yup
+      .string()
+      .matches(/^[a-zA-Z0-9_-]+$/, "Invalid characters in username")
+      .required(),
+    email: yup
+      .string()
+      .email("Invalid email address")
+      .required(),
+    password: yup
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .required("Must enter password"),
+    tos: yup.boolean().oneOf([true], "You must agree to the TOS")
+  }),
 
   handleSubmit(values) {
     console.log("submitted: ", values);
